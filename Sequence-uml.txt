@@ -1,0 +1,70 @@
+@startuml
+title Sequence Diagram: UC-02 Successful CV Upload and Agent Parsing
+
+autonumber
+skinparam ResponseMessageBelowArrow true
+skinparam ParticipantBorderColor Black
+skinparam ParticipantBackgroundColor White
+skinparam SequenceArrowColor Black
+skinparam LifeLineBorderColor Black
+
+' --- Participants Definitions ---
+actor "Job Seeker" as User
+participant ":UserDashboard\n(Frontend UI)" as FE
+participant ":ProfileController\n(Backend API)" as BE
+participant ":ProfileUnderstandingAgent\n(AI Orchestrator)" as Agent
+database ":SupabaseDB\n(PostgreSQL Store)" as DB
+
+== Document Submission & Validation ==
+activate User
+User -> FE : uploadCV(file)
+activate FE
+
+FE -> FE : showLoadingSpinner()
+activate FE
+deactivate FE
+
+FE -> BE : HTTP POST /profile/upload (file payload)
+activate BE
+
+BE -> BE : validateFileFormatAndSize()
+activate BE
+note right of BE : Confirms <5MB size\nand .pdf/.docx headers
+deactivate BE
+
+== Agent Processing & Text Extraction ==
+BE -> Agent : extractAndStructureProfile(raw_text)
+activate Agent
+
+Agent -> Agent : executePromptMapping()
+activate Agent
+note right of Agent : Evaluates skills, education,\nand role history blocks
+deactivate Agent
+
+Agent --> BE : return structured_profile_json
+deactivate Agent
+
+== Persistence & State Synchronization ==
+BE -> DB : INSERT INTO cv_documents (parsed_skills, text)
+activate DB
+DB --> BE : confirm write success (cv_id)
+deactivate DB
+
+BE -> DB : UPDATE business_profiles SET status='ANALYZED'
+activate DB
+DB --> BE : transaction status ACK
+deactivate DB
+
+BE --> FE : HTTP 201 Created (profile_metadata)
+deactivate BE
+
+== Dashboard State Refresh ==
+FE -> FE : hideLoadingSpinner()
+activate FE
+deactivate FE
+
+FE --> User : redirectAndDisplayUpdatedProfile()
+deactivate FE
+deactivate User
+
+@enduml
