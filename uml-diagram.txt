@@ -1,0 +1,36 @@
+@startuml
+' --- Configuration Settings ---
+left to right direction
+skinparam packageStyle rectangle
+skinparam actorStyle stickman
+
+' --- Actors (Placed Outside the System Boundary) ---
+actor "Job Seeker" as jobseeker
+
+' --- System Boundary ---
+rectangle "Project 7: Agentic AI Career Intelligence Platform" {
+    
+    ' --- Use Cases (Goals inside the system) ---
+    usecase "UC-01: Authenticate User" as UC01
+    usecase "UC-02: Upload CV and Extract Profile" as UC02
+    usecase "UC-03: Perform Job Match Search" as UC03
+    usecase "UC-04: Analyze Skill Gaps" as UC04
+    usecase "UC-05: Engage with AI Interview Coach" as UC05
+    usecase "UC-06: View Career Readiness Report" as UC06
+
+    ' --- Alternate / Extension Flows Visualized ---
+    usecase "Overwrite Existing Profile" as UC02_Alt
+}
+
+' --- Associations (Connecting Actors to Use Cases) ---
+jobseeker --> UC01
+jobseeker --> UC02
+jobseeker --> UC03
+jobseeker --> UC04
+jobseeker --> UC05
+jobseeker --> UC06
+
+' --- Internal Use Case Relationships ---
+UC02_Alt .> UC02 : <<extend>>
+
+@endum
