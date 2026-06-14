@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group 15 - Agentic AI Career Intelligence Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Interactive UI Simulation Logic
+        function simulateFileUpload() {
+            const fileInput = document.getElementById('cv-file-input');
+            const dropzone = document.getElementById('upload-dropzone');
+            const loadingState = document.getElementById('agent-loading-state');
+            const profileContent = document.getElementById('profile-data-display');
+            const validationError = document.getElementById('validation-error-banner');
+
+            // Reset error states
+            validationError.classList.add('hidden');
+
+            if (!fileInput.files.length) return;
+            
+            const file = fileInput.files[0];
+            // Component B Server-End Validation Simulation: Check if PDF or DOCX
+            if (!file.name.endsWith('.pdf') && !file.name.endsWith('.docx')) {
+                validationError.classList.remove('hidden');
+                document.getElementById('error-text').innerText = "Invalid file type. Component B validation rules restrict uploads strictly to PDF or DOCX format.";
+                fileInput.value = '';
+                return;
+            }
+
+            // Component A Front-End Feedback Loop Transition
+            dropzone.classList.add('hidden');
+            loadingState.classList.remove('hidden');
+
+            // Simulate Agent Processing Delay (3 Seconds)
+            setTimeout(() => {
+                loadingState.classList.add('hidden');
+                profileContent.classList.remove('hidden');
+            }, 3000);
+        }
+
+        function resetUpload() {
+            document.getElementById('profile-data-display').add('hidden');
+            document.getElementById('upload-dropzone').classList.remove('hidden');
+            document.getElementById('cv-file-input').value = '';
+            location.reload();
+        }
+    </script>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen flex">
+
+    <aside class="w-64 bg-gray-800 border-r border-gray-700 p-6 flex flex-col justify-between">
+        <div>
+            <div class="flex items-center gap-3 mb-8">
+                <div class="bg-indigo-600 p-2 rounded-lg text-white font-bold text-xl">🤖</div>
+                <h1 class="text-lg font-bold tracking-wide text-indigo-400">CareerAgent AI</h1>
+            </div>
+            <nav class="space-y-2">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 bg-indigo-600 text-white rounded-lg font-medium transition">
+                    <span>📁</span> CV Upload & Profile
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-gray-200 rounded-lg transition">
+                    <span>🔍</span> Job Match Engine
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-gray-200 rounded-lg transition">
+                    <span>📊</span> Skill Gap Analytics
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-gray-700 hover:text-gray-200 rounded-lg transition">
+                    <span>💬</span> AI Interview Coach
+                </a>
+            </nav>
+        </div>
+        <div class="border-t border-gray-700 pt-4 text-xs text-gray-500">
+            <p>System Layer: Capstone MVP</p>
+            <p>Group 15 | NIT3003 Project</p>
+        </div>
+    </aside>
+
+    <main class="flex-1 p-10 max-w-5xl mx-auto">
+        <header
